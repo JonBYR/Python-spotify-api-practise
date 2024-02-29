@@ -47,7 +47,7 @@ def get_track_information(token, id):
     headers = get_auth_header(token)
     result = get(url, headers=headers)
     json_result = json.loads(result.content)
-    return json_result #returns all information from get_track_audio_analysis as a json file
+    return json_result #returns all information from get_track_audio_analysis as a json file, could try and do return json_result[1] to try and return only the track header in the file
 token = get_token()
 result_track = get_track_id(token,artist_name,artist_song)
 song_id = result_track["id"] #dictionary is returned and id is stored from the id key field
