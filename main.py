@@ -38,10 +38,10 @@ def get_track_id(token, artist, song):
     query = f"?q={artist}, {song}&type=artist,track&limit=1" #use &type=artist,track to search for artist and a track, limit = 1 will only get most popular song
     query_url = url + query #fstrings are string formating to create a query in the spotify api, ? needed at start of query string
     result = get(query_url, headers=headers) #format the information is returned as 
-    json_result = json.loads(result.content)["tracks"]["items"] #converts this into a dictionary
+    json_result = json.loads(result.content)["tracks"]["items"] #converts this into a dictionary and gets these two headers 
     if len(json_result) == 0:
         return None
-    return json_result[0] #returns the id of the track (first element of the dictionary file)
+    return json_result[0] #returns the first element of the dictionary file
 def get_track_information(token, id):
     url = f"https://api.spotify.com/v1/audio-analysis/{id}"
     headers = get_auth_header(token)
@@ -52,5 +52,6 @@ token = get_token()
 result_track = get_track_id(token,artist_name,artist_song)
 song_id = result_track["id"] #dictionary is returned and id is stored from the id key field
 track_info = get_track_information(token, song_id)
+track = track_info["track"] #stores all information relating to the track tag in the json object
 with open('musicdata.json', 'w') as exportFile: #writes all the track_information returned from spotify into a json file using the dump method
-    json.dump(track_info, exportFile)
+    json.dump(track, exportFile)
